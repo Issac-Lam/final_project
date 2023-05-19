@@ -13,7 +13,7 @@ void setup() {
   h = height/size;
   
   pos = new PVector(w/2, h/2); // Initial position
-  newFood(); // create 2D vector
+  newDot(); // create 2D vector
   
   noStroke();
   fill(0);
@@ -36,7 +36,7 @@ void drawDot(){
 }
 
 void newDot(){
-  dot = new PVector();
+  dot = new PVector(0,0);
 }
 
 void keyPressed() {
