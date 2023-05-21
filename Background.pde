@@ -1,43 +1,50 @@
-PVector dot;
-PVector pos;
-PVector dir = new PVector(0,0);
-ArrayList<PVector> man = new ArrayList<PVector>();
-int x = 0;
-int y = 0;
-int dotSize = 10;
-int w,h;
+int gridsize = 40;
+int pacmanRadius = 15;
+int pacmanSpeed = 3;
+int ghostRadius = 15;
+int ghostSpeed = 2;
+int dotRadius = 5;
+int pacManX; 
+int pacManY; 
+int ghostX; 
+int ghostY;
+int score;
+int dotsRemaining;
+
 
 void setup() {
-  size(1080, 720);
-  w = width/size;
-  h = height/size;
+  size(800,600);
+  pacmanX = width / 2;
+  pacmanY = height / 2;
+        
+  ghostX = width / 4;
+  ghostY = height / 4;
+        
+  score = 0;
+  dotsRemaining = 50;
   
-  pos = new PVector(w/2, h/2); // Initial position
-  newDot(); // create 2D vector
-  
-  noStroke();
-  fill(0);
+  for (int i = 0; i < dotsRemaining; i++) {
+            int x = (int) random(1, width / gridsize) * gridsize;
+            int y = (int) random(1, height / gridsize) * gridsize;
+            
+            fill(255); // White color
+            ellipse(x, y, DOT_RADIUS * 2, DOT_RADIUS * 2);
+   }
 }
 
 void draw() {
-  background(255);
-  drawSnake();
-  drawDot();
   
-  // update snake if frameCount is a multiple of spd which is 20 at the begining
-  if(frameCount % spd == 0) {
-    updateSnake();   
-  }
-}
 
 void drawDot(){
   fill(255,255,255);
-  square(dot.x*size, dot.y*size, size);
+  circle(dot.x*size, dot.y*size, size);
 }
 
 void newDot(){
   dot = new PVector(0,0);
 }
+
+
 
 void keyPressed() {
  if(keyCode == UP) {
