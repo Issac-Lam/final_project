@@ -72,7 +72,7 @@ if(keyPressed){
 }
 }
 
-private void moveGhost() {
+void moveGhost() {
    if (ghostX < pacmanX) {
       ghostX += ghostSpeed;
    } 
