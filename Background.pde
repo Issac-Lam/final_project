@@ -33,7 +33,28 @@ void setup() {
 }
 
 void draw() {
-  
+  background(0);
+        
+  movePacman();
+  moveGhost();
+  checkCollision();
+        
+  // Draw Pac-Man
+  fill(255, 255, 0); 
+  arc(pacmanX, pacmanY, PACMAN_RADIUS * 2, PACMAN_RADIUS * 2, 0.2f, 2 * PI - 0.2f, PIE);
+        
+  // Draw Ghost
+  fill(255, 0, 0); 
+  ellipse(ghostX, ghostY, GHOST_RADIUS * 2, GHOST_RADIUS * 2);
+        
+  // Display score
+  fill(255);
+  text("Score: " + score, 10, 20);
+        
+  if (dotsRemaining == 0) {
+      gameOver("You Win!");
+        }
+}
 
 void drawDot(){
   fill(255,255,255);
@@ -46,18 +67,20 @@ void newDot(){
 
 
 
-void keyPressed() {
- if(keyCode == UP) {
-    dir = new PVector(x,y-1);
+void movePacMan() {
+if(keyPressed){
+   if (keyCode == UP && pacmanY > 0) {
+      pacmanY -= pacmanSpeed;
+   } 
+   else if (keyCode == DOWN && pacmanY < height) {
+      pacmanY += pacmanSpeed;
+   } 
+   else if (keyCode == LEFT && pacmanX > 0) {
+      pacmanX -= pacmanSpeed;
    }
-   else if(keyCode == DOWN) {
-    dir = new PVector(x,y+1);
+   else if (keyCode == RIGHT && pacmanX < width) {
+      pacmanX += pacmanSpeed;
    }
-   else if(keyCode ==LEFT) {
-    dir = new PVector(x-1,y);
-   }
-   else if(keyCode == RIGHT) {
-    dir = new PVector(x+1,y);
-   }
+}
 }
 
