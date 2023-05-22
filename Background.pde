@@ -4,8 +4,8 @@ int pacmanSpeed = 3;
 int ghostRadius = 15;
 int ghostSpeed = 2;
 int dotRadius = 5;
-int pacManX; 
-int pacManY; 
+int pacmanX; 
+int pacmanY; 
 int ghostX; 
 int ghostY;
 int score;
@@ -27,8 +27,8 @@ void setup() {
             int x = (int) random(1, width / gridsize) * gridsize;
             int y = (int) random(1, height / gridsize) * gridsize;
             
-            fill(255); // White color
-            ellipse(x, y, DOT_RADIUS * 2, DOT_RADIUS * 2);
+            fill(255); 
+            ellipse(x, y, dotRadius * 2, dotRadius * 2);
    }
 }
 
@@ -37,37 +37,25 @@ void draw() {
         
   movePacman();
   moveGhost();
-  checkCollision();
         
   // Draw Pac-Man
   fill(255, 255, 0); 
-  arc(pacmanX, pacmanY, PACMAN_RADIUS * 2, PACMAN_RADIUS * 2, 0.2f, 2 * PI - 0.2f, PIE);
+  arc(pacmanX, pacmanY, pacmanRadius * 2, pacmanRadius * 2, 0.5, 2 * PI - 0.5, PIE);
         
   // Draw Ghost
   fill(255, 0, 0); 
-  ellipse(ghostX, ghostY, GHOST_RADIUS * 2, GHOST_RADIUS * 2);
+  ellipse(ghostX, ghostY, ghostRadius * 2, ghostRadius * 2);
         
   // Display score
   fill(255);
   text("Score: " + score, 10, 20);
         
   if (dotsRemaining == 0) {
-      gameOver("You Win!");
+//      gameOver("You Win!");
         }
 }
 
-void drawDot(){
-  fill(255,255,255);
-  circle(dot.x*size, dot.y*size, size);
-}
-
-void newDot(){
-  dot = new PVector(0,0);
-}
-
-
-
-void movePacMan() {
+void movePacman() {
 if(keyPressed){
    if (keyCode == UP && pacmanY > 0) {
       pacmanY -= pacmanSpeed;
@@ -82,5 +70,21 @@ if(keyPressed){
       pacmanX += pacmanSpeed;
    }
 }
+}
+
+private void moveGhost() {
+   if (ghostX < pacmanX) {
+      ghostX += ghostSpeed;
+   } 
+   else if (ghostX > pacmanX) {
+      ghostX -= ghostSpeed;
+   }
+        
+   if (ghostY < pacmanY) {
+      ghostY += ghostSpeed;
+   } 
+   else if (ghostY > pacmanY) {
+      ghostY -= ghostSpeed;
+   }
 }
 
