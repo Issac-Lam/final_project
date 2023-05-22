@@ -10,6 +10,7 @@ int ghostX;
 int ghostY;
 int score;
 int dotsRemaining;
+int direction;
 
 
 void setup() {
@@ -40,7 +41,18 @@ void draw() {
         
   // Draw Pac-Man
   fill(255, 255, 0); 
+  if(direction == RIGHT){
   arc(pacmanX, pacmanY, pacmanRadius * 2, pacmanRadius * 2, 0.5, 2 * PI - 0.5, PIE);
+  }
+  if(direction == LEFT){
+  arc(pacmanX, pacmanY, pacmanRadius * 2, pacmanRadius * 2, -0.5, PI + 0.5 , PIE);
+  }
+  if(direction == UP){
+  arc(pacmanX, pacmanY, pacmanRadius * 2, pacmanRadius * 2, -0.5, PI + 0.5 , PIE);
+  }
+  if(direction == DOWN){
+  arc(pacmanX, pacmanY, pacmanRadius * 2, pacmanRadius * 2, -0.3, 2 * PI + 0.5 , PIE);
+  }
         
   // Draw Ghost
   fill(255, 0, 0); 
@@ -59,20 +71,24 @@ void movePacman() {
 if(keyPressed){
    if (keyCode == UP && pacmanY > 0) {
       pacmanY -= pacmanSpeed;
+      direction = UP;
    } 
    else if (keyCode == DOWN && pacmanY < height) {
       pacmanY += pacmanSpeed;
+      direction = DOWN;
    } 
    else if (keyCode == LEFT && pacmanX > 0) {
       pacmanX -= pacmanSpeed;
+      direction = LEFT;
    }
    else if (keyCode == RIGHT && pacmanX < width) {
       pacmanX += pacmanSpeed;
+      direction = RIGHT;
    }
 }
 }
 
-void moveGhost() {
+private void moveGhost() {
    if (ghostX < pacmanX) {
       ghostX += ghostSpeed;
    } 
@@ -87,4 +103,3 @@ void moveGhost() {
       ghostY -= ghostSpeed;
    }
 }
-
