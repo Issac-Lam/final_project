@@ -12,6 +12,8 @@ int score;
 int dotsRemaining;
 int direction;
 
+pacman pac = new pacman();
+ghost g = new ghost();
 
 void setup() {
   size(800,600);
@@ -36,8 +38,8 @@ void setup() {
 void draw() {
   background(0);
         
-  movePacman();
-  moveGhost();
+  pac.movePacman();
+  g.moveGhost();
         
   // Draw Pac-Man
   fill(255, 255, 0); 
@@ -45,13 +47,13 @@ void draw() {
   arc(pacmanX, pacmanY, pacmanRadius * 2, pacmanRadius * 2, 0.5, 2 * PI - 0.5, PIE);
   }
   if(direction == LEFT){
-  arc(pacmanX, pacmanY, pacmanRadius * 2, pacmanRadius * 2, -0.5, PI + 0.5 , PIE);
+  arc(pacmanX, pacmanY, pacmanRadius * 2, pacmanRadius * 2, -2.5, PI -0.75 , PIE);
   }
   if(direction == UP){
-  arc(pacmanX, pacmanY, pacmanRadius * 2, pacmanRadius * 2, -0.5, PI + 0.5 , PIE);
+  arc(pacmanX, pacmanY, pacmanRadius * 2, pacmanRadius * 2, -0.75, PI + 0.75 , PIE);
   }
   if(direction == DOWN){
-  arc(pacmanX, pacmanY, pacmanRadius * 2, pacmanRadius * 2, -0.3, 2 * PI + 0.5 , PIE);
+  arc(pacmanX, pacmanY, pacmanRadius * 2, pacmanRadius * 2, 2.25, 2 * PI + 0.75 , PIE);
   }
         
   // Draw Ghost
@@ -66,6 +68,8 @@ void draw() {
 //      gameOver("You Win!");
         }
 }
+
+class pacman {
 
 void movePacman() {
 if(keyPressed){
@@ -85,10 +89,14 @@ if(keyPressed){
       pacmanX += pacmanSpeed;
       direction = RIGHT;
    }
-}
+ }
 }
 
-private void moveGhost() {
+}
+
+class ghost {
+
+void moveGhost() {
    if (ghostX < pacmanX) {
       ghostX += ghostSpeed;
    } 
@@ -102,4 +110,8 @@ private void moveGhost() {
    else if (ghostY > pacmanY) {
       ghostY -= ghostSpeed;
    }
+ }
+ 
 }
+
+class maze {
