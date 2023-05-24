@@ -20,9 +20,10 @@ void setup() {
   pacmanX = width / 2;
   pacmanY = height / 2;
         
-  ghostX = width / 4;
-  ghostY = height / 4;
+  ghostX = width / 2;
+  ghostY = height / 3;
         
+  direction = RIGHT;
   score = 0;
   dotsRemaining = 50;
   
@@ -114,4 +115,3 @@ void moveGhost() {
  
 }
 
-class maze {
