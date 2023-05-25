@@ -34,6 +34,8 @@ void setup() {
             fill(255); 
             ellipse(x, y, dotRadius * 2, dotRadius * 2);
    }
+   
+   menu.setMenu();
 }
 
 void draw() {
@@ -70,14 +72,37 @@ void draw() {
         }
 }
 
+class menu {
+
+  void setMenu() {
+   background(0);
+   rect(0, 0, width, 10); // Top
+   rect(width-10, 0, 10, height); // Right
+   rect(0, height-10, width, 10); // Bottom
+   rect(0, 0, 10, height); // Left
+  
+    //Title
+    //[Press SPACE to start]
+   if(keyPressed) {
+    if(keyCode == SPACE) {
+      draw();
+    }
+   }
+  }
+  
+}
+
 class general {
 
 void gameOver(String txt) {
-    
+    clear();
+    setMenu();
 }
 
 void ghostCollision() {
-
+  if(ghostX == pacman X && ghostY == pacmanY) {
+    gameOver("You lost...");
+  }
 }
 
 void mazeCollision() {
