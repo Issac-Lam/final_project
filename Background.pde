@@ -70,6 +70,22 @@ void draw() {
         }
 }
 
+class general {
+
+void gameOver(String txt) {
+    
+}
+
+void ghostCollision() {
+
+}
+
+void mazeCollision() {
+
+}
+
+}
+
 class pacman {
 
 void movePacman() {
