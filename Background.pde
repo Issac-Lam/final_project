@@ -1,3 +1,45 @@
+int gridsize = 40;
+int pacmanRadius = 15;
+int pacmanSpeed = 3;
+int ghostRadius = 15;
+int ghostSpeed = 2;
+int dotRadius = 5;
+int pacmanX; 
+int pacmanY; 
+int ghostX; 
+int ghostY;
+int score;
+int dotsRemaining;
+int direction;
+boolean pressed = true;
+
+pacman pac = new pacman();
+ghost g = new ghost();
+menu m = new menu();
+
+void setup() {
+  size(800,600);
+  pacmanX = width / 2;
+  pacmanY = height / 2;
+        
+  ghostX = width / 2;
+  ghostY = height / 3;
+        
+  direction = RIGHT;
+  score = 0;
+  dotsRemaining = 50;
+  
+  for (int i = 0; i < dotsRemaining; i++) {
+            int x = (int) random(1, width / gridsize) * gridsize;
+            int y = (int) random(1, height / gridsize) * gridsize;
+            
+            fill(255); 
+            ellipse(x, y, dotRadius * 2, dotRadius * 2);
+   }
+   
+   m.setMenu();
+}
+
 void draw() {
   if(keyPressed && pressed) {
     if(key == ENTER) {
@@ -120,5 +162,3 @@ void moveGhost() {
  }
  
 }
-
-
