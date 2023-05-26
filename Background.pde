@@ -4,18 +4,23 @@ int pacmanSpeed = 3;
 int ghostRadius = 15;
 int ghostSpeed = 2;
 int dotRadius = 5;
+
 int pacmanX; 
 int pacmanY; 
 int ghostX; 
 int ghostY;
+
 int score;
 int dotsRemaining;
+
+int level;
 int direction;
+boolean[][] walls;
+boolean[][] dots;
 boolean pressed = true;
 
 pacman pac = new pacman();
 ghost g = new ghost();
-menu m = new menu();
 
 void setup() {
   size(800,600);
@@ -28,22 +33,105 @@ void setup() {
   direction = RIGHT;
   score = 0;
   dotsRemaining = 50;
-  
-  for (int i = 0; i < dotsRemaining; i++) {
-            int x = (int) random(1, width / gridsize) * gridsize;
-            int y = (int) random(1, height / gridsize) * gridsize;
-            
-            fill(255); 
-            ellipse(x, y, dotRadius * 2, dotRadius * 2);
+  createMap();
+
    }
-   
-   m.setMenu();
-}
+   //m.setMenu();
+
+
+  void createMap() {
+
+      walls = new boolean[width / gridsize][height / gridsize];
+      dots = new boolean[width / gridsize][height / gridsize];
+        
+        // Generate walls, dots, and power pellets on the grid
+        for (int i = 0; i < width / gridsize; i++) {
+            for (int j = 0; j < height / gridsize; j++) {
+                walls[i][j] = false;
+                dots[i][j] = false;
+            }
+        }
+    
+        for(int i = 1; i < 14; i++) {
+          for(int j = 1; j < 19; j += 13) {
+            walls[i][j] = true;
+          }
+        }
+            
+            
+            
+            walls[1][2] = true;
+            walls[3][2] = true;
+            walls[4][2] = true;
+            walls[5][2] = true;
+            walls[6][2] = true;
+            walls[7][2] = true;
+            walls[8][2] = true;
+            walls[9][2] = true;
+            walls[10][2] = true;
+            walls[11][2] = true;
+            
+            walls[1][3] = true;
+            walls[11][3] = true;
+            
+            walls[1][4] = true;
+            walls[4][4] = true;
+            walls[5][4] = true;
+            walls[6][4] = true;
+            walls[8][4] = true;
+            walls[9][4] = true;
+            walls[11][4] = true;
+            
+            walls[1][5] = true;
+            walls[4][5] = true;
+            walls[5][5] = true;
+            walls[6][5] = true;
+            walls[8][5] = true;
+            walls[9][5] = true;
+            walls[11][5] = true;
+            
+            walls[1][6] = true;
+            walls[4][6] = true;
+            walls[5][6] = true;
+            walls[6][6] = true;
+            walls[7][6] = true;
+            walls[8][6] = true;
+            walls[9][6] = true;
+            walls[11][6] = true;
+            
+            walls[1][7] = true;
+            walls[4][7] = true;
+            walls[6][7] = true;
+            walls[7][7] = true;
+            walls[8][7] = true;
+            walls[9][7] = true;
+            walls[11][7] = true;
+            
+            walls[1][8] = true;
+            walls[3][8] = true;
+            walls[4][8] = true;
+            walls[5][8] = true;
+            walls[6][8] = true;
+            walls[7][8] = true;
+            walls[8][8] = true;
+            walls[9][8] = true;
+            walls[10][8] = true;
+            walls[11][8] = true;
+            walls[12][8] = true;
+            
+
+            for(int i = 1; i < width / gridsize - 1; i++) {
+                for (int j = 1; j < height / gridsize - 1; j++) {
+                    dots[i][j] = true;
+                    dotsRemaining++;
+                }
+            }
+  }
+
+
 
 void draw() {
-  if(keyPressed && pressed) {
-    if(key == ENTER) {
-      pressed = false;
+
       background(0);
         
       pac.movePacman();
@@ -59,30 +147,50 @@ void draw() {
   if (dotsRemaining == 0) {
 //      gameOver("You Win!");
         }
-    }
-  }
+    
+  
+        
+        // Draw walls
+        for (int i = 0; i < width / gridsize; i++) {
+            for (int j = 0; j < height / gridsize; j++) {
+                if (walls[i][j] == true) {
+                    fill(0, 0, 255); // Blue color
+                    rect(i * gridsize, j * gridsize, gridsize, gridsize);
+                }
+            }
+        }
+        
+        // Draw dots
+        for (int i = 0; i < width / gridsize; i++) {
+            for (int j = 0; j < height / gridsize; j++) {
+                if (dots[i][j]) {
+                    fill(255); // White color
+                    ellipse(i * gridsize + gridsize / 2, j * gridsize + gridsize / 2, dotRadius * 2, dotRadius * 2);
+                }
+            }
+        }
 }
 
-class menu {
+//class menu {
 
-  void setMenu() {
-   background(0);
-   rect(0, 0, width, 10); // Top
-   rect(width-10, 0, 10, height); // Right
-   rect(0, height-10, width, 10); // Bottom
-   rect(0, 0, 10, height); // Left
+//  void setMenu() {
+//   background(0);
+//   rect(0, 0, width, 10); // Top
+//   rect(width-10, 0, 10, height); // Right
+//   rect(0, height-10, width, 10); // Bottom
+//   rect(0, 0, 10, height); // Left
   
-    //Title
+//    //Title
 
-  }
+//  }
   
-}
+//}
 
 class general {
 
 void gameOver(String txt) {
     clear();
-    m.setMenu();
+    //m.setMenu();
 }
 
 void ghostCollision() {
