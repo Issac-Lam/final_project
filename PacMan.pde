@@ -140,7 +140,7 @@ void setup() {
         walls[17][4] = true;
         walls[17][5] = true;
         walls[17][6] = true;
-        walls[17][7] = true;
+        //walls[17][7] = true;
         walls[17][8] = true;
         walls[17][9] = true;
         walls[17][10] = true;
@@ -397,6 +397,9 @@ void moveGhost() {
      ghostX = nextX;
      ghostY = nextY;
     }
+ //if the pixel in front is blue then change directions (random?)
+ //
+ 
  }
  
 }
