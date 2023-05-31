@@ -130,7 +130,7 @@ void setup() {
         walls[2][4] = true;
         walls[2][5] = true;
         walls[2][6] = true;
-        walls[2][7] = true;
+        //walls[2][7] = true;
         walls[2][8] = true;
         walls[2][9] = true;
         walls[2][10] = true;
@@ -144,19 +144,19 @@ void setup() {
         walls[17][8] = true;
         walls[17][9] = true;
         walls[17][10] = true;
-        walls[17][11] = true;
+        //walls[17][11] = true;
 
         walls[8][1] = true;
-        walls[8][2] = true;
+        //walls[8][2] = true;
         walls[8][3] = true;
         walls[8][4] = true;
         walls[8][5] = true;
         walls[8][6] = true;
         walls[8][7] = true;
-        walls[8][8] = true;
+        //walls[8][8] = true;
         walls[8][9] = true;
         walls[8][10] = true;
-        walls[8][11] = true;
+        //walls[8][11] = true;
         walls[8][12] = true;
 
         walls[11][1] = true;
@@ -165,7 +165,7 @@ void setup() {
         walls[11][4] = true;
         walls[11][5] = true;
         walls[11][6] = true;
-        walls[11][7] = true;
+        //walls[11][7] = true;
         walls[11][8] = true;
         walls[11][9] = true;
         walls[11][10] = true;
@@ -204,13 +204,15 @@ void setup() {
         walls[14][9] = true;
         walls[15][9] = true;
         walls[16][9] = true;
-        walls[17][9] = true;
+        //walls[17][9] = true;
             
 
             for(int i = 1; i < width / gridsize - 1; i++) {
                 for (int j = 1; j < height / gridsize - 1; j++) {
+                  if(!walls[i][j]) {
                     dots[i][j] = true;
                     dotsRemaining++;
+                }
                 }
             }
   }
@@ -400,10 +402,10 @@ void moveGhost() {
 }
 
     @Override
-    public void keyPressed() {
+    void keyPressed() {
         if (!gameStarted || gameOver) {
             gameStarted = true;
             gameOver = false;
-            setup();
+            startGame();
         }
     }
