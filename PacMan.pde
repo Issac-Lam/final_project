@@ -35,7 +35,7 @@ void setup() {
 
   void startGame() {
       pacmanX = 9 * gridsize + gridsize / 2;
-      pacmanY = 7 * gridsize + gridsize / 2;
+      pacmanY = 8 * gridsize + gridsize / 2;
         
       ghostX = 9 * gridsize + gridsize / 2;
       ghostY = 4 * gridsize + gridsize / 2;
@@ -53,14 +53,8 @@ void setup() {
                 dots[i][j] = false;
             }
         }
-    
-        for(int i = 1; i < 14; i++) {
-          for(int j = 1; j < 19; j += 13) {
-            walls[i][j] = true;
-          }
-        }
             
-        walls[0][0] = true;
+        //walls[0][0] = true;
         walls[0][1] = true;
         walls[0][2] = true;
         walls[0][3] = true;
@@ -74,9 +68,9 @@ void setup() {
         walls[0][11] = true;
         walls[0][12] = true;
         walls[0][13] = true;
-        walls[0][14] = true;
+        //walls[0][14] = true;
 
-        walls[19][0] = true;
+        //walls[19][0] = true;
         walls[19][1] = true;
         walls[19][2] = true;
         walls[19][3] = true;
@@ -90,8 +84,9 @@ void setup() {
         walls[19][11] = true;
         walls[19][12] = true;
         walls[19][13] = true;
-        walls[19][14] = true;
+        //walls[19][14] = true;
 
+        walls[1][1] = true;
         walls[2][1] = true;
         walls[3][1] = true;
         walls[4][1] = true;
@@ -109,6 +104,7 @@ void setup() {
         walls[16][1] = true;
         walls[17][1] = true;
 
+        walls[1][13] = true;
         walls[2][13] = true;
         walls[3][13] = true;
         walls[4][13] = true;
@@ -172,22 +168,22 @@ void setup() {
         walls[11][11] = true;
         walls[11][12] = true;
 
-        walls[2][6] = true;
-        walls[3][6] = true;
-        walls[4][6] = true;
-        walls[5][6] = true;
-        walls[6][6] = true;
-        walls[7][6] = true;
-        walls[8][6] = true;
-        walls[9][6] = true;
-        walls[10][6] = true;
-        walls[11][6] = true;
-        walls[12][6] = true;
-        walls[13][6] = true;
-        walls[14][6] = true;
-        walls[15][6] = true;
-        walls[16][6] = true;
-        walls[17][6] = true;
+        walls[2][7] = true;
+        walls[3][7] = true;
+        walls[4][7] = true;
+        walls[5][7] = true;
+        walls[6][7] = true;
+        walls[7][7] = true;
+        walls[8][7] = true;
+        walls[9][7] = true;
+        walls[10][7] = true;
+        walls[11][7] = true;
+        walls[12][7] = true;
+        walls[13][7] = true;
+        walls[14][7] = true;
+        walls[15][7] = true;
+        walls[16][7] = true;
+        walls[17][7] = true;
 
         walls[2][9] = true;
         walls[3][9] = true;
@@ -205,7 +201,10 @@ void setup() {
         walls[15][9] = true;
         walls[16][9] = true;
         //walls[17][9] = true;
-            
+        
+        walls[18][1] = true;
+        walls[18][13] = true;
+        walls[2][13] = true;
 
             for(int i = 1; i < width / gridsize - 1; i++) {
                 for (int j = 1; j < height / gridsize - 1; j++) {
