@@ -22,6 +22,8 @@ boolean pressed = true;
 boolean gameStarted;
 boolean gameOver;
 
+ArrayList<int[]> possibleDirections;
+
 pacman pac = new pacman();
 ghost g = new ghost();
 general gen = new general();
@@ -39,7 +41,13 @@ void setup() {
         
       ghostX = 9 * gridsize + gridsize / 2;
       ghostY = 4 * gridsize + gridsize / 2;
-        
+      
+      possibleDirections = new ArrayList<>();
+      possibleDirections.add(new int[]{0, -1}); // Up
+      possibleDirections.add(new int[]{0, 1});  // Down
+      possibleDirections.add(new int[]{-1, 0}); // Left
+      possibleDirections.add(new int[]{1, 0});  // Right
+      
       direction = RIGHT;
       score = 0;
       dotsRemaining = 50;
