@@ -1,4 +1,4 @@
-class game {
+
 int gridsize = 40;
 int pacmanRadius = 15;
 int pacmanSpeed = 3;
@@ -279,4 +279,4 @@ void draw() {
             startGame();
         }
     }
-}
+
