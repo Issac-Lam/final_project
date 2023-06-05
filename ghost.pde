@@ -29,25 +29,52 @@ boolean canSeePacman() {
 
     int x = startX;
     int y = startY;
-    int notVisible = absDx - absDy;
 
-    while (x != targetX || y != targetY) {
-        if (walls[x][y]) return false;
-
-        int notVisible2 = notVisible * 2;
-        if (notVisible2 > -absDy) { notVisible -= absDy; x += signDx; }
-        if (notVisible2 < absDx) { notVisible += absDx; y += signDy; }
+    if (absDx == 0 || absDy == 0) {
+            return true;
     }
 
-    return true;
+    int stepX = signDx;
+    int stepY = signDy;
+    
+    float distanceX = (stepX == 1) ? (x + 1) * gridsize - ghostX : ghostX - x * gridsize;
+    float distanceY = (stepY == 1) ? (y + 1) * gridsize - ghostY : ghostY - y * gridsize;
+
+    float maxDistance = sqrt(pow(width, 2) + pow(height, 2));
+    
+    while (distanceX <= maxDistance || distanceY <= maxDistance) {
+            if (distanceX <= distanceY) {
+                distanceX += absDy * gridsize / absDx;
+                x += stepX;
+            } else {
+                distanceY += absDx * gridsize / absDy;
+                y += stepY;
+            }
+
+            // Check if the current cell is a wall
+            if (walls[x][y]) {
+                return false;
+            }
+
+            // Check if reached the target cell
+            if (x == targetX && y == targetY) {
+                return true;
+            }
+        }
+
+        return false;
 }
  
 void moveGhost() {
     if (canSeePacman()) {
         chasePacman();
     } else {
-        moveRandomly();
-    }
+        if (ghostMoveCounter == 0) {
+           moveRandomly();
+        } else {
+           continueMoving();
+        }
+     }
 }
  
 void chasePacman() {
@@ -79,15 +106,39 @@ void chasePacman() {
             ghostY = newGhostY;
         }
     }
-void moveRandomly() {
+    
+void continueMoving() {
+        // Calculate the new position
+        int newGhostX = ghostX + ghostDx * ghostSpeed;
+        int newGhostY = ghostY + ghostDy * ghostSpeed;
+
+        if (isValidMove(newGhostX, newGhostY)) {
+            ghostX = newGhostX;
+            ghostY = newGhostY;
+            ghostMoveCounter++;
+
+            // Check if the ghost has moved 'gridsize' pixels in the current direction
+            if (ghostMoveCounter == gridsize) {
+                ghostMoveCounter = 0;
+                determineNewDirection();
+            }
+        } else {
+            determineNewDirection();
+        }
+}    
+    
+void determineNewDirection() {
         // Choose a random direction
         int[] randomDirection = possibleDirections.get((int) random(possibleDirections.size()));
-        int dx = randomDirection[0];
-        int dy = randomDirection[1];
-
+        ghostDx = randomDirection[0];
+        ghostDy = randomDirection[1];
+}    
+    
+void moveRandomly() {
+        determineNewDirection();
         // Calculate the new position
-        int newGhostX = ghostX + dx * ghostSpeed;
-        int newGhostY = ghostY + dy * ghostSpeed;
+        int newGhostX = ghostX + ghostDx * ghostSpeed;
+        int newGhostY = ghostY + ghostDy * ghostSpeed;
 
         // Check if the new position is valid (not hitting a wall)
         if (isValidMove(newGhostX, newGhostY)) {
@@ -97,3 +148,4 @@ void moveRandomly() {
     }
  
 }
+
