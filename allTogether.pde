@@ -483,6 +483,7 @@ void continueMoving() {
                 determineNewDirection();
             }
         } else {
+            ghostMoveCounter++;
             determineNewDirection();
         }
 }    
