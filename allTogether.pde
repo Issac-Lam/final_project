@@ -25,6 +25,7 @@ boolean pressed = true;
 
 boolean gameStarted;
 boolean gameOver;
+boolean win;
 
 pacman pac = new pacman();
 ghost g = new ghost();
@@ -280,21 +281,20 @@ void draw() {
         }
         
         if (dotsRemaining == 0) {
-            level++;
-            if (level <= 2) {
-                setup();
-            } else {
-                gen.gameOver("You Win!");
-            }
+            win = true;
+            gen.displayWin();
         }
+        
+        
 
 }
 
     @Override
     void keyPressed() {
-        if (!gameStarted) {
+        if (!gameStarted || gameOver || win) {
             gameStarted = true;
             gameOver = false;
+            win = false;
             startGame();
         }
     }
@@ -304,7 +304,15 @@ void draw() {
 //-------------------------------------------------------------------------------------------------
 
 class general {
-
+  
+void displayWin() {
+        fill(255);
+        textSize(40);
+        textAlign(CENTER, CENTER);
+        text("Win!", width / 2, height / 2 - 40);
+        text("Press any key to restart", width / 2, height / 2 + 40);
+    }  
+  
 void displayStartMessage() {
         fill(255);
         textSize(40);
@@ -314,10 +322,12 @@ void displayStartMessage() {
     
 void displayGameOver() {
         fill(255);
-        textSize(40);
+        textSize(100);
         textAlign(CENTER, CENTER);
-        text("Game Over!", width / 2, height / 2 - 40);
-        text("Press any key to restart", width / 2, height / 2 + 40);
+        text("Game Over!", width / 2, height / 2 - 80);
+        textSize(40);
+        text("Press any key to restart", width / 2, height / 2 );
+        text("Final Score: " + score, width / 2, height / 2 + 60);
     }
 
 void gameOver(String txt) {
@@ -326,7 +336,6 @@ void gameOver(String txt) {
         textSize(40);
         textAlign(CENTER, CENTER);
         text(txt, width / 2, height / 2 - 40);
-        text("Final Score: " + score, width / 2, height / 2 + 40);
     }
 
 void ghostCollision() {
