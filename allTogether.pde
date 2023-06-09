@@ -261,6 +261,8 @@ void draw() {
         
       pac.drawPacman();
       g.drawGhost();
+      g.drawGhost();
+      g.drawGhost();
         
       gen.ghostCollision();
       gen.dotCollision();   
@@ -297,7 +299,7 @@ void draw() {
 
     @Override
     void keyPressed() {
-        if (!gameStarted || gameOver) {
+        if (!gameStarted) {
             gameStarted = true;
             gameOver = false;
             startGame();
@@ -317,10 +319,12 @@ void displayStartMessage() {
     
 void displayGameOver() {
         fill(255);
-        textSize(40);
+        textSize(100);
         textAlign(CENTER, CENTER);
-        text("Game Over!", width / 2, height / 2 - 40);
-        text("Press any key to restart", width / 2, height / 2 + 40);
+        text("Game Over!", width / 2, height / 2 - 80);
+        textSize(40);
+        text("Press any key to restart", width / 2, height / 2);
+        text("Final Score: " + score, width / 2, height / 2 + 60);
     }
 
 void gameOver(String txt) {
@@ -329,18 +333,13 @@ void gameOver(String txt) {
         textSize(40);
         textAlign(CENTER, CENTER);
         text(txt, width / 2, height / 2 - 40);
-        text("Final Score: " + score, width / 2, height / 2 + 40);
     }
 
 void ghostCollision() {
         float distance = dist(pacmanX, pacmanY, ghostX, ghostY);
         
         if (distance < pacmanRadius + ghostRadius) {
-            if (score >= 10) {
-                score -= 10;
-            } else {
                 gameOver("Game Over!");
-            }
         }
 }
 
@@ -360,17 +359,16 @@ void dotCollision() {
  
 class ghost {
 
-int ghostMoveDelay = 1; // Adjust this value to control the speed of the ghost (higher value means slower movement)
+int ghostMoveDelay = 0; // Adjust this value to control the speed of the ghost (higher value means slower movement)
 int ghostMoveTimer = ghostMoveDelay;
 int ghostStepSize = 1; // Move one pixel at a time
 int currentDirection = (int) random(4); // Initial random direction
 int stepsTaken = 0; // Number of steps taken in the current direction
 
+
 void drawGhost() {
   fill(255, 0, 0); 
-  ellipse(ghost1X, ghost1Y, ghostRadius * 2, ghostRadius * 2);
-  ellipse(ghost2X, ghost2Y, ghostRadius * 2, ghostRadius * 2);
-  ellipse(ghost3X, ghost3Y, ghostRadius * 2, ghostRadius * 2);
+  ellipse(ghostX, ghostY, ghostRadius * 2, ghostRadius * 2);
 }
  
  boolean isValidMove(int x, int y) {
