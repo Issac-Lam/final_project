@@ -14,10 +14,6 @@ int ghostDx;
 int ghostDy;
 int ghostMoveCounter = 0;
 
-boolean isPoweredUp = false;
-int powerUpDuration = 10;
-int powerUpTimer = 0;
-
 int score;
 int dotsRemaining;
 
@@ -29,12 +25,12 @@ boolean pressed = true;
 
 boolean gameStarted;
 boolean gameOver;
-
-ArrayList<int[]> possibleDirections;
+boolean win;
 
 pacman pac = new pacman();
 ghost g = new ghost();
 general gen = new general();
+
 
 void setup() {
   size(800,600);
@@ -49,12 +45,6 @@ void setup() {
         
       ghostX = 9 * gridsize + gridsize / 2;
       ghostY = 4 * gridsize + gridsize / 2;
-      
-      possibleDirections = new ArrayList<>();
-      possibleDirections.add(new int[]{0, -1}); // Up
-      possibleDirections.add(new int[]{0, 1});  // Down
-      possibleDirections.add(new int[]{-1, 0}); // Left
-      possibleDirections.add(new int[]{1, 0});  // Right
       
       direction = RIGHT;
       score = 0;
@@ -265,8 +255,7 @@ void draw() {
         
       pac.drawPacman();
       g.drawGhost();
-      g.drawGhost();
-      g.drawGhost();
+
         
       gen.ghostCollision();
       gen.dotCollision();   
@@ -292,30 +281,22 @@ void draw() {
         }
         
         if (dotsRemaining == 0) {
-            level++;
-            if (level <= 2) {
-                setup();
-            } else {
-                gen.gameOver("You Win!");
-            }
+            win = true;
+            gen.displayWin();
         }
         
-        if (isPoweredUp) {
-          fill(255);
-          textAlign(CENTER);
-          textSize(20);
-          text("Power-Up: " + ceil(powerUpTimer / 60.0), width / 2, height - 20);
-          powerUpTimer--;
-          if (powerUpTimer <= 0) {
-            isPoweredUp = false;
-        }
+        
+
 }
 
     @Override
     void keyPressed() {
-        if (!gameStarted) {
+        if (!gameStarted || gameOver || win) {
             gameStarted = true;
             gameOver = false;
+            win = false;
             startGame();
         }
     }
+
+
