@@ -1,5 +1,13 @@
 class general {
-
+  
+void displayWin() {
+        fill(255);
+        textSize(40);
+        textAlign(CENTER, CENTER);
+        text("Win!", width / 2, height / 2 - 40);
+        text("Press any key to restart", width / 2, height / 2 + 40);
+    }  
+  
 void displayStartMessage() {
         fill(255);
         textSize(40);
@@ -9,10 +17,12 @@ void displayStartMessage() {
     
 void displayGameOver() {
         fill(255);
-        textSize(40);
+        textSize(100);
         textAlign(CENTER, CENTER);
-        text("Game Over!", width / 2, height / 2 - 40);
-        text("Press any key to restart", width / 2, height / 2 + 40);
+        text("Game Over!", width / 2, height / 2 - 80);
+        textSize(40);
+        text("Press any key to restart", width / 2, height / 2 );
+        text("Final Score: " + score, width / 2, height / 2 + 60);
     }
 
 void gameOver(String txt) {
@@ -21,7 +31,6 @@ void gameOver(String txt) {
         textSize(40);
         textAlign(CENTER, CENTER);
         text(txt, width / 2, height / 2 - 40);
-        text("Final Score: " + score, width / 2, height / 2 + 40);
     }
 
 void ghostCollision() {
@@ -47,14 +56,5 @@ void dotCollision() {
         }
     }
     
-private void cherryCollision() {
-    // Check collision with cherry power-ups
-    if (dist(pacmanX, pacmanY, cherry1X, cherry1Y) < pacmanSize / 2 + cherrySize / 2) {
-
-        // Enable Pacman's power-up state
-        isPoweredUp = true;
-        powerUpTimer = powerUpDuration * 60; // Convert the duration to frames
-    }
-}
 
 }
