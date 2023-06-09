@@ -1,16 +1,15 @@
 class ghost {
 
-int ghostMoveDelay = 1; // Adjust this value to control the speed of the ghost (higher value means slower movement)
+int ghostMoveDelay = 0; // Adjust this value to control the speed of the ghost (higher value means slower movement)
 int ghostMoveTimer = ghostMoveDelay;
 int ghostStepSize = 1; // Move one pixel at a time
 int currentDirection = (int) random(4); // Initial random direction
 int stepsTaken = 0; // Number of steps taken in the current direction
 
+
 void drawGhost() {
   fill(255, 0, 0); 
-  ellipse(ghost1X, ghost1Y, ghostRadius * 2, ghostRadius * 2);
-  ellipse(ghost2X, ghost2Y, ghostRadius * 2, ghostRadius * 2);
-  ellipse(ghost3X, ghost3Y, ghostRadius * 2, ghostRadius * 2);
+  ellipse(ghostX, ghostY, ghostRadius * 2, ghostRadius * 2);
 }
  
  boolean isValidMove(int x, int y) {
@@ -96,6 +95,7 @@ private void moveGhost() {
     }
 }
 
+
 private boolean canSeePacman() {
     int dx = Math.abs(pacmanX - ghostX);
     int dy = Math.abs(pacmanY - ghostY);
@@ -103,7 +103,4 @@ private boolean canSeePacman() {
     // Check if Pacman is within the line of sight of the ghost
     return dx <= gridsize * 3 && dy <= gridsize * 3;
 }
-
-
- 
 }
