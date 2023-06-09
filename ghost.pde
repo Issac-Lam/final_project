@@ -8,7 +8,9 @@ int stepsTaken = 0; // Number of steps taken in the current direction
 
 void drawGhost() {
   fill(255, 0, 0); 
-  ellipse(ghostX, ghostY, ghostRadius * 2, ghostRadius * 2);
+  ellipse(ghost1X, ghost1Y, ghostRadius * 2, ghostRadius * 2);
+  ellipse(ghost2X, ghost2Y, ghostRadius * 2, ghostRadius * 2);
+  ellipse(ghost3X, ghost3Y, ghostRadius * 2, ghostRadius * 2);
 }
  
  boolean isValidMove(int x, int y) {
