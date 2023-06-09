@@ -32,6 +32,7 @@ ArrayList<int[]> possibleDirections;
 pacman pac = new pacman();
 ghost g = new ghost();
 general gen = new general();
+cherry c = new cherry();
 
 void setup() {
   size(800,600);
@@ -44,14 +45,8 @@ void setup() {
       pacmanX = 9 * gridsize + gridsize / 2;
       pacmanY = 8 * gridsize + gridsize / 2;
         
-      ghost1X = 9 * gridsize + gridsize / 2;
-      ghost1Y = 4 * gridsize + gridsize / 2;
-      
-      ghost2X = 5 * gridsize + gridsize / 2;
-      ghost2Y = 4 * gridsize + gridsize / 2;
-      
-      ghost3X = 13 * gridsize + gridsize / 2;
-      ghost3Y = 4 * gridsize + gridsize / 2;
+      ghostX = 9 * gridsize + gridsize / 2;
+      ghostY = 4 * gridsize + gridsize / 2;  
         
       possibleDirections = new ArrayList<>();
       possibleDirections.add(new int[]{0, -1}); // Up
@@ -256,6 +251,7 @@ void draw() {
         
       pac.drawPacman();
       g.drawGhost();
+      c.drawCherry();
         
       gen.ghostCollision();
       gen.dotCollision();   
@@ -287,6 +283,17 @@ void draw() {
             } else {
                 gen.gameOver("You Win!");
             }
+        }
+        
+        if (isPoweredUp) {
+          fill(255);
+          textAlign(CENTER);
+          textSize(20);
+          text("Power-Up: " + ceil(powerUpTimer / 60.0), width / 2, height - 20);
+          powerUpTimer--;
+          if (powerUpTimer <= 0) {
+            isPoweredUp = false;
+          }
         }
 }
 
