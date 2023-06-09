@@ -11,6 +11,10 @@ int pacmanY;
 int ghostX; 
 int ghostY;
 
+boolean isPoweredUp = false; 
+int powerUpDuration = 10; 
+int powerUpTimer = 0; 
+
 int score;
 int dotsRemaining;
 
