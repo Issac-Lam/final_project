@@ -46,4 +46,15 @@ void dotCollision() {
             dotsRemaining--;
         }
     }
- }
+    
+private void cherryCollision() {
+    // Check collision with cherry power-ups
+    if (dist(pacmanX, pacmanY, cherry1X, cherry1Y) < pacmanSize / 2 + cherrySize / 2) {
+
+        // Enable Pacman's power-up state
+        isPoweredUp = true;
+        powerUpTimer = powerUpDuration * 60; // Convert the duration to frames
+    }
+}
+
+}
