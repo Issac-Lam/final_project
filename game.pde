@@ -14,6 +14,10 @@ int ghostDx;
 int ghostDy;
 int ghostMoveCounter = 0;
 
+boolean isPoweredUp = false;
+int powerUpDuration = 10;
+int powerUpTimer = 0;
+
 int score;
 int dotsRemaining;
 
