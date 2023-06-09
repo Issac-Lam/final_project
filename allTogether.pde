@@ -26,11 +26,10 @@ boolean pressed = true;
 boolean gameStarted;
 boolean gameOver;
 
-ArrayList<int[]> possibleDirections;
-
 pacman pac = new pacman();
 ghost g = new ghost();
 general gen = new general();
+
 
 void setup() {
   size(800,600);
@@ -45,12 +44,6 @@ void setup() {
         
       ghostX = 9 * gridsize + gridsize / 2;
       ghostY = 4 * gridsize + gridsize / 2;
-      
-      possibleDirections = new ArrayList<>();
-      possibleDirections.add(new int[]{0, -1}); // Up
-      possibleDirections.add(new int[]{0, 1});  // Down
-      possibleDirections.add(new int[]{-1, 0}); // Left
-      possibleDirections.add(new int[]{1, 0});  // Right
       
       direction = RIGHT;
       score = 0;
@@ -261,8 +254,7 @@ void draw() {
         
       pac.drawPacman();
       g.drawGhost();
-      g.drawGhost();
-      g.drawGhost();
+
         
       gen.ghostCollision();
       gen.dotCollision();   
@@ -295,6 +287,7 @@ void draw() {
                 gen.gameOver("You Win!");
             }
         }
+
 }
 
     @Override
@@ -305,6 +298,8 @@ void draw() {
             startGame();
         }
     }
+
+
 
 //-------------------------------------------------------------------------------------------------
 
@@ -319,12 +314,10 @@ void displayStartMessage() {
     
 void displayGameOver() {
         fill(255);
-        textSize(100);
-        textAlign(CENTER, CENTER);
-        text("Game Over!", width / 2, height / 2 - 80);
         textSize(40);
-        text("Press any key to restart", width / 2, height / 2);
-        text("Final Score: " + score, width / 2, height / 2 + 60);
+        textAlign(CENTER, CENTER);
+        text("Game Over!", width / 2, height / 2 - 40);
+        text("Press any key to restart", width / 2, height / 2 + 40);
     }
 
 void gameOver(String txt) {
@@ -333,13 +326,18 @@ void gameOver(String txt) {
         textSize(40);
         textAlign(CENTER, CENTER);
         text(txt, width / 2, height / 2 - 40);
+        text("Final Score: " + score, width / 2, height / 2 + 40);
     }
 
 void ghostCollision() {
         float distance = dist(pacmanX, pacmanY, ghostX, ghostY);
         
         if (distance < pacmanRadius + ghostRadius) {
+            if (score >= 10) {
+                score -= 10;
+            } else {
                 gameOver("Game Over!");
+            }
         }
 }
 
@@ -353,7 +351,9 @@ void dotCollision() {
             dotsRemaining--;
         }
     }
- }
+    
+
+}
  
 //-------------------------------------------------------------------------------------------------
  
@@ -454,6 +454,7 @@ private void moveGhost() {
     }
 }
 
+
 private boolean canSeePacman() {
     int dx = Math.abs(pacmanX - ghostX);
     int dy = Math.abs(pacmanY - ghostY);
@@ -461,10 +462,8 @@ private boolean canSeePacman() {
     // Check if Pacman is within the line of sight of the ghost
     return dx <= gridsize * 3 && dy <= gridsize * 3;
 }
-
-
- 
 }
+
 
 //-------------------------------------------------------------------------------------------------
 
@@ -515,3 +514,5 @@ if(keyPressed){
 
 }
 }
+
+
