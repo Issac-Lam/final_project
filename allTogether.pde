@@ -249,6 +249,10 @@ void draw() {
         gen.displayStartMessage();
         return;
       }
+      if(win) {
+        gen.displayWin();
+        return;
+      }
         
       pac.movePacman();
       g.moveGhost();
@@ -282,7 +286,6 @@ void draw() {
         
         if (dotsRemaining == 0) {
             win = true;
-            gen.displayWin();
         }
         
         
