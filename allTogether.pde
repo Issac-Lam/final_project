@@ -360,9 +360,17 @@ void dotCollision() {
  
 class ghost {
 
+int ghostMoveDelay = 1; // Adjust this value to control the speed of the ghost (higher value means slower movement)
+int ghostMoveTimer = ghostMoveDelay;
+int ghostStepSize = 1; // Move one pixel at a time
+int currentDirection = (int) random(4); // Initial random direction
+int stepsTaken = 0; // Number of steps taken in the current direction
+
 void drawGhost() {
   fill(255, 0, 0); 
-  ellipse(ghostX, ghostY, ghostRadius * 2, ghostRadius * 2);
+  ellipse(ghost1X, ghost1Y, ghostRadius * 2, ghostRadius * 2);
+  ellipse(ghost2X, ghost2Y, ghostRadius * 2, ghostRadius * 2);
+  ellipse(ghost3X, ghost3Y, ghostRadius * 2, ghostRadius * 2);
 }
  
  boolean isValidMove(int x, int y) {
@@ -371,142 +379,92 @@ void drawGhost() {
 
     return gridX >= 0 && gridX < 20 && gridY >= 0 && gridY < 15 && !walls[gridX][gridY];
 }
- 
-boolean canSeePacman() {
-    int startX = ghostX / gridsize;
-    int startY = ghostY / gridsize;
-    int targetX = pacmanX / gridsize;
-    int targetY = pacmanY / gridsize;
 
-    int dx = targetX - startX;
-    int dy = targetY - startY;
-    int absDx = abs(dx);
-    int absDy = abs(dy);
-    int signDx;
-      if(dx > 0) signDx = 1; else signDx = -1;
-    int signDy;
-      if(dy > 0) signDy = 1; else signDy = -1;
+private void moveGhost() {
+    ghostMoveTimer--;
 
-    int x = startX;
-    int y = startY;
-
-    if (absDx == 0 || absDy == 0) {
-            return true;
+    if (ghostMoveTimer > 0) {
+        return;
     }
 
-    int stepX = signDx;
-    int stepY = signDy;
-    
-    float distanceX = (stepX == 1) ? (x + 1) * gridsize - ghostX : ghostX - x * gridsize;
-    float distanceY = (stepY == 1) ? (y + 1) * gridsize - ghostY : ghostY - y * gridsize;
+    ghostMoveTimer = ghostMoveDelay;
 
-    float maxDistance = sqrt(pow(width, 2) + pow(height, 2));
-    
-    while (distanceX <= maxDistance || distanceY <= maxDistance) {
-            if (distanceX <= distanceY) {
-                distanceX += absDy * gridsize / absDx;
-                x += stepX;
-            } else {
-                distanceY += absDx * gridsize / absDy;
-                y += stepY;
-            }
+    int dx = 0;
+    int dy = 0;
 
-            // Check if the current cell is a wall
-            if (walls[x][y]) {
-                return false;
-            }
+    // Update the direction of movement based on the current direction
+    switch (currentDirection) {
+        case 0:
+            dx = 1;
+            break;
+        case 1:
+            dx = -1;
+            break;
+        case 2:
+            dy = 1;
+            break;
+        case 3:
+            dy = -1;
+            break;
+    }
 
-            // Check if reached the target cell
-            if (x == targetX && y == targetY) {
-                return true;
-            }
-        }
+    // Calculate the target position
+    int targetX = ghostX + dx * ghostStepSize;
+    int targetY = ghostY + dy * ghostStepSize;
 
-        return false;
-}
- 
-void moveGhost() {
+    // Check if the ghost can see Pacman
     if (canSeePacman()) {
-        chasePacman();
-    } else {
-        if (ghostMoveCounter == 0) {
-           moveRandomly();
-        } else {
-           continueMoving();
+        // Calculate the direction towards Pacman
+        if (pacmanX < ghostX) {
+            dx = -1;
+        } else if (pacmanX > ghostX) {
+            dx = 1;
         }
-     }
+
+        if (pacmanY < ghostY) {
+            dy = -1;
+        } else if (pacmanY > ghostY) {
+            dy = 1;
+        }
+
+        // Calculate the target position towards Pacman
+        targetX = ghostX + dx * ghostStepSize;
+        targetY = ghostY + dy * ghostStepSize;
+    }
+
+    // Check if the target position is within the maze boundaries and is a valid move (not a wall)
+    if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height
+            && !walls[targetX / gridsize][targetY / gridsize]) {
+        ghostX += dx * ghostStepSize;
+        ghostY += dy * ghostStepSize;
+        stepsTaken++;
+    }
+
+    // Check if the ghost has taken enough steps in the current direction or has hit a wall
+    if (stepsTaken >= gridsize || (dx != 0 && walls[ghostX / gridsize + dx][ghostY / gridsize])
+            || (dy != 0 && walls[ghostX / gridsize][ghostY / gridsize + dy])) {
+        // Randomly choose a new direction that is different from the current direction
+        int newDirection;
+        do {
+            newDirection = (int) random(4);
+        } while (newDirection == currentDirection);
+
+        currentDirection = newDirection;
+
+        // Reset the steps taken
+        stepsTaken = 0;
+    }
 }
- 
-void chasePacman() {
-        int targetX = pacmanX;
-        int targetY = pacmanY;
 
-        // Calculate the direction to move towards Pac-Man
-        int dx = 0;
-        int dy = 0;
+private boolean canSeePacman() {
+    int dx = Math.abs(pacmanX - ghostX);
+    int dy = Math.abs(pacmanY - ghostY);
 
-        if (ghostX < targetX) {
-            dx = 1; // Move right
-        } else if (ghostX > targetX) {
-            dx = -1; // Move left
-        }
+    // Check if Pacman is within the line of sight of the ghost
+    return dx <= gridsize * 3 && dy <= gridsize * 3;
+}
 
-        if (ghostY < targetY) {
-            dy = 1; // Move down
-        } else if (ghostY > targetY) {
-            dy = -1; // Move up
-        }
 
-        // Calculate the new position
-        int newGhostX = ghostX + dx * ghostSpeed;
-        int newGhostY = ghostY + dy * ghostSpeed;
-
-        if (isValidMove(newGhostX, newGhostY)) {
-            ghostX = newGhostX;
-            ghostY = newGhostY;
-        }
-    }
-    
-void continueMoving() {
-        // Calculate the new position
-        int newGhostX = ghostX + ghostDx * ghostSpeed;
-        int newGhostY = ghostY + ghostDy * ghostSpeed;
-
-        if (isValidMove(newGhostX, newGhostY)) {
-            ghostX = newGhostX;
-            ghostY = newGhostY;
-            ghostMoveCounter++;
-
-            // Check if the ghost has moved 'gridsize' pixels in the current direction
-            if (ghostMoveCounter == gridsize) {
-                ghostMoveCounter = 0;
-                determineNewDirection();
-            }
-        } else {
-            ghostMoveCounter++;
-            determineNewDirection();
-        }
-}    
-    
-void determineNewDirection() {
-        // Choose a random direction
-        int[] randomDirection = possibleDirections.get((int) random(possibleDirections.size()));
-        ghostDx = randomDirection[0];
-        ghostDy = randomDirection[1];
-}    
-    
-void moveRandomly() {
-        determineNewDirection();
-        // Calculate the new position
-        int newGhostX = ghostX + ghostDx * ghostSpeed;
-        int newGhostY = ghostY + ghostDy * ghostSpeed;
-
-        // Check if the new position is valid (not hitting a wall)
-        if (isValidMove(newGhostX, newGhostY)) {
-            ghostX = newGhostX;
-            ghostY = newGhostY;
-        }
-    }
  
 }
 
